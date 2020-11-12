@@ -3,16 +3,18 @@
 public class Bullet : MonoBehaviour
 {
 
-	private Transform target;
+	protected Transform target;
+
 	public float speed = 70f;
-	public int damage;
+
+	public float damage = 50;
+
 	public GameObject impactEffect;
 
-	public void Seek(Transform _target)
+	public virtual void Seek(Transform _target)
 	{
 		target = _target;
 	}
-
 	// Update is called once per frame
 	void Update()
 	{
@@ -37,15 +39,15 @@ public class Bullet : MonoBehaviour
 
 	}
 
-	void HitTarget()
+	public void HitTarget()
 	{
 		GameObject effectIns = (GameObject)Instantiate(impactEffect, transform.position, transform.rotation);
 		Destroy(effectIns, 5f);
-		Damage(target);		
+		Damage(target);
 		Destroy(gameObject);
 	}
 
-	void Damage(Transform enemy)
+	public virtual void Damage(Transform enemy)
 	{
 		Enemy e = enemy.GetComponent<Enemy>();
 

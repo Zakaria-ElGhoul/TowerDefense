@@ -15,16 +15,17 @@ public class Node : MonoBehaviour
     public BuildManager buildManager;
 
     public AudioClip placeSFX;
-    public AudioClip hoverSFX;
     public AudioSource source;
     void Start()
     {
         rend = GetComponent<MeshRenderer>();
+        buildManager = BuildManager.instance;   
     }
     
     void OnMouseOver()
     {
-        source.PlayOneShot(hoverSFX);
+        if (buildManager.GetTurretToBuild() == null)
+            return;
         rend.material.color = HoverColor;
     }
 
@@ -35,13 +36,16 @@ public class Node : MonoBehaviour
 
     void OnMouseDown()
     {
+        if(buildManager.GetTurretToBuild() == null)
+            return;
+
         if(turret != null)
         {
             Debug.Log("Can't build here!");
             return;
         }
         source.PlayOneShot(placeSFX);
-        GameObject turretToBuild = BuildManager.instance.GetTurretToBuild();
+        GameObject turretToBuild = buildManager.GetTurretToBuild();
         turret = (GameObject)Instantiate(turretToBuild, transform.position, transform.rotation);
     }
 }

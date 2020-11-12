@@ -9,7 +9,7 @@ public class PlayerHealth : MonoBehaviour
     public int damage = 1;
     public TMP_Text healthText;
     private bool isDead = false;
-
+    public Animator anim;
     private void Start()
     {
         healthText.text = "Health: " + health.ToString();
@@ -19,7 +19,7 @@ public class PlayerHealth : MonoBehaviour
         health -= damage;
         Debug.Log(health);
         healthText.text = "Health: " + health.ToString();
-
+        anim.SetTrigger("TakeDamage");
         if (health <= 0)
         {
             isDead = true;
